@@ -9,3 +9,7 @@ vendor
 *.out
 logs
 test-prow
+
+
+# Ignore DevSpace cache and log folder
+.devspace/

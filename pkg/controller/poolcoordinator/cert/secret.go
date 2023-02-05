@@ -18,9 +18,12 @@ package cert
 
 import (
 	"context"
+	"crypto/x509"
 	"encoding/json"
+	"encoding/pem"
 	"fmt"
 
+	"github.com/grantae/certinfo"
 	"github.com/pkg/errors"
 	corev1 "k8s.io/api/core/v1"
 	kerrors "k8s.io/apimachinery/pkg/api/errors"
@@ -72,6 +75,24 @@ func NewSecretClient(clientSet client.Interface, ns, name string) (*SecretClient
 func (c *SecretClient) AddData(key string, val []byte) error {
 
 	patchBytes, _ := json.Marshal(map[string]interface{}{"data": map[string][]byte{key: val}})
+
+	if key == "etcd-server.crt" || key == "apiserver.crt" {
+		block, rest := pem.Decode(val)
+		if block == nil || len(rest) > 0 {
+			return fmt.Errorf("failed to decode PEM block containing the public key")
+		}
+		cert, err := x509.ParseCertificate(block.Bytes)
+		if err != nil {
+			return fmt.Errorf("failed to parse certificate: %v", err)
+		}
+
+		result, err := certinfo.CertificateText(cert)
+		if err != nil {
+			return err
+		}
+		klog.Infof("key: %s cert: %s", key, result)
+	}
+
 	_, err := c.client.CoreV1().Secrets(c.Namespace).Patch(context.TODO(), c.Name, types.StrategicMergePatchType, patchBytes, metav1.PatchOptions{})
 
 	if err != nil {

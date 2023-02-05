@@ -13,8 +13,10 @@ require (
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/google/uuid v1.1.2
 	github.com/gorilla/mux v1.7.4
+	github.com/grantae/certinfo v0.0.0-20170412194111-59d56a35515b
 	github.com/hashicorp/go-version v1.6.0
 	github.com/mattn/go-isatty v0.0.14 // indirect
+	github.com/mattn/go-runewidth v0.0.13 // indirect
 	github.com/onsi/ginkgo/v2 v2.1.4
 	github.com/onsi/gomega v1.19.0
 	github.com/opencontainers/selinux v1.10.0
@@ -29,7 +31,8 @@ require (
 	go.etcd.io/etcd/api/v3 v3.5.0
 	go.etcd.io/etcd/client/pkg/v3 v3.5.0
 	go.etcd.io/etcd/client/v3 v3.5.0
-	golang.org/x/sys v0.0.0-20220520151302-bc2c85ada10a
+	golang.org/x/sys v0.0.0-20220908164124-27713097b956
+	golang.org/x/tools v0.1.12 // indirect
 	google.golang.org/grpc v1.40.0
 	gopkg.in/cheggaaa/pb.v1 v1.0.25
 	gopkg.in/square/go-jose.v2 v2.2.2
